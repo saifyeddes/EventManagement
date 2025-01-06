@@ -1,9 +1,12 @@
 package com.example.eventmanagement.controllers;
 
 import com.example.eventmanagement.models.Admin;
+import com.example.eventmanagement.models.FormulaireDemande;
 import com.example.eventmanagement.models.Participant;
 import com.example.eventmanagement.models.Prestataire;
+import com.example.eventmanagement.repository.FormulaireDemandeRepository;
 import com.example.eventmanagement.services.Adminservice;
+import com.example.eventmanagement.services.FormulaireDemandeService;
 import com.example.eventmanagement.services.ParticipantService;
 import com.example.eventmanagement.services.PrestataireService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,11 @@ public class AdminController {
     private ParticipantService participantService;
     @Autowired
     private PrestataireService prestataireService;
+    @Autowired
+    private FormulaireDemandeRepository formulaireDemandeRepository;
+    @Autowired
+    private FormulaireDemandeService formulaireDemandeService;
+
 
     // Liste des admins
     @GetMapping("/dashboard")
@@ -118,4 +126,14 @@ public class AdminController {
             return "admin/loginadmin"; // Retour à la page de connexion
         }
     }
+    @GetMapping("/demandes")
+    public String listAllDemandes(Model model) {
+        List<FormulaireDemande> demandes = formulaireDemandeService.getAllDemandes();
+        if (demandes.isEmpty()) {
+            model.addAttribute("errorMessage", "Aucune demande trouvée.");
+        }
+        model.addAttribute("demandes", demandes);
+        return "admin/demands"; // Vue Thymeleaf pour afficher la liste des demandes
+    }
+
 }

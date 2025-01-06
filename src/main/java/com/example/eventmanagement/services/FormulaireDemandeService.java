@@ -29,6 +29,9 @@ import java.util.List;
             }
             return null;
         }
+    public List<FormulaireDemande> getAllDemandes() {
+        return formulaireDemandeRepository.findAll();
+    }
     }
 
 
